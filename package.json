@@ -1,0 +1,24 @@
+{
+  "name": "battleships-www",
+  "version": "0.0.1",
+  "description": "Batelfield browser game.",
+  "scripts": {
+    "lint": "./node_modules/.bin/gulp lint",
+    "test": "./node_modules/.bin/gulp test"
+  },
+  "keywords": [
+    "battleships",
+    "game"
+  ],
+  "author": "Oskar Wróbel <kontakt@oskarwrobel.pl>",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "battleships-dev-tools": "../battleships-dev-tools",
+    "battleships-engine": "../battleships-engine",
+    "battleships-ui-vanilla": "../battleships-ui-vanilla",
+    "battleships-core": "../battleships-core",
+    "del": "^2.2.2",
+    "guppy-pre-commit": "^0.4.0"
+  }
+}
