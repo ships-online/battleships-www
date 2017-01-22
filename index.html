@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+	<style>
+		.battlefield-wrapper {
+			display: flex;
+		}
+
+		.battlefield {
+			margin: 20px;
+			border: solid 1px #000;
+			position: relative;
+		}
+
+		.ship {
+			border: solid 1px #000;
+			position: absolute;
+			box-sizing: border-box;
+		}
+
+		.rotated {
+			transform: rotate( 90deg );
+		}
+
+		.collision {
+			border-color: red;
+		}
+
+		.aim {
+			position: absolute;
+			background: rgba( 100, 100, 100, .2 );
+			display: none;
+		}
+
+		.marker {
+			position: absolute;
+			background: rgba(255,0,0,.3);
+		}
+
+		.missed {
+			background: rgba(255,0,0,.3);
+		}
+
+		.hit {
+			background: rgba(0,255,0,.3);
+		}
+
+		.active {
+			display: block;
+		}
+
+		input {
+			margin: 10px;
+			font-size: 16px;
+			display: block;
+			width: 90%;
+			padding: 5px;
+		}
+	</style>
+</head>
+<body>
+<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+<script src="lib/battleships/Battleships.js"></script>
+<script>
+	const gameId = window.location.hash.split( '#' )[ 1 ];
+
+	if ( !gameId ) {
+		Battleships.create( document.body ).then( ( newGame ) => {
+			window.game = newGame;
+		} ).catch( e => console.error( e.stack ) );
+	} else {
+		Battleships.join( document.body, gameId ).then( ( newGame ) => {
+			window.game = newGame;
+		} ).catch( ( e ) => console.error( e.stack ) );
+	}
+</script>
+</body>
+</html>
