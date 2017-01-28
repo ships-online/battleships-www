@@ -49,6 +49,10 @@
 			display: block;
 		}
 
+		.battlefield.inactive {
+			opacity: .2;
+		}
+
 		input {
 			margin: 10px;
 			font-size: 16px;
@@ -59,7 +63,7 @@
 	</style>
 </head>
 <body>
-<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+<script src="http://192.168.1.6:8080/socket.io/socket.io.js"></script>
 <script src="lib/battleships/Battleships.js"></script>
 <script>
 	const gameId = window.location.hash.split( '#' )[ 1 ];
