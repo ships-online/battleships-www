@@ -68,14 +68,29 @@
 <script>
 	const gameId = window.location.hash.split( '#' )[ 1 ];
 
-	if ( !gameId ) {
+	function createGame() {
 		Battleships.create( document.body ).then( ( newGame ) => {
 			window.game = newGame;
 		} ).catch( e => console.error( e.stack ) );
+	}
+
+	if ( !gameId ) {
+		createGame();
 	} else {
 		Battleships.join( document.body, gameId ).then( ( newGame ) => {
 			window.game = newGame;
-		} ).catch( ( e ) => console.error( e.stack ) );
+		} ).catch( ( error ) => {
+			document.body.innerHTML = 'This game is not available because: ' + error;
+
+			const button = document.createElement( 'button' );
+			button.textContent = 'New game';
+			button.addEventListener( 'click', () => {
+				history.pushState( '', document.title, window.location.pathname + window.location.search );
+				document.body.innerHTML = '';
+				createGame();
+			} );
+			document.body.appendChild( button );
+		} );
 	}
 </script>
 </body>
