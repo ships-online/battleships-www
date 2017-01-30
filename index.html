@@ -69,28 +69,32 @@
 	const gameId = window.location.hash.split( '#' )[ 1 ];
 
 	function createGame() {
-		Battleships.create( document.body ).then( ( newGame ) => {
-			window.game = newGame;
-		} ).catch( e => console.error( e.stack ) );
+		Battleships.create( document.body )
+			.then( game => game.play() )
+			.catch( ( error ) => showGameOverScreen( error ) );
+	}
+
+	function showGameOverScreen( error ) {
+		document.body.innerHTML = 'This game is not available because: ' + error;
+
+		const button = document.createElement( 'button' );
+
+		button.textContent = 'New game';
+		button.addEventListener( 'click', () => {
+			history.pushState( '', document.title, window.location.pathname + window.location.search );
+			document.body.innerHTML = '';
+			createGame();
+		} );
+
+		document.body.appendChild( button );
 	}
 
 	if ( !gameId ) {
 		createGame();
 	} else {
-		Battleships.join( document.body, gameId ).then( ( newGame ) => {
-			window.game = newGame;
-		} ).catch( ( error ) => {
-			document.body.innerHTML = 'This game is not available because: ' + error;
-
-			const button = document.createElement( 'button' );
-			button.textContent = 'New game';
-			button.addEventListener( 'click', () => {
-				history.pushState( '', document.title, window.location.pathname + window.location.search );
-				document.body.innerHTML = '';
-				createGame();
-			} );
-			document.body.appendChild( button );
-		} );
+		Battleships.join( document.body, gameId )
+			.then( game => game.play() )
+			.catch( error => showGameOverScreen( error ) );
 	}
 </script>
 </body>
