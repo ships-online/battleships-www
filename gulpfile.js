@@ -18,7 +18,13 @@ gulp.task( 'relink', linkTasks.relink );
 
 // Compile engine to esnext format.
 gulp.task( 'clean:battleships', () => utils.del( './lib/battleships' ) );
-gulp.task( 'battleships:compile', [ 'clean:battleships' ], () => compileTasks.compileGame( 'lib/battleships/Battleships.js', options ) );
+gulp.task( 'battleships:compile', [ 'clean:battleships' ], () => {
+	return compileTasks.compileGame( {
+		destination: 'lib/battleships/',
+		fileName: 'Battleships.js',
+		themes: [ 'wireframe' ]
+	}, options );
+} );
 
 gulp.task( 'lint', lintTasks.lint );
 gulp.task( 'pre-commit', lintTasks.lintStaged );
