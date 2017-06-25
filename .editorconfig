@@ -11,5 +11,6 @@ indent_style = tab
 [*.{js,scss}]
 indent_size = 4
 
-[{package.json}]
+[{package.json,mgit.json}]
 indent_size = 2
+indent_style = space
