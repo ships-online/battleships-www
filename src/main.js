@@ -1,5 +1,7 @@
 import Battleships from 'battleships-core/src/game';
 
+import './main.scss';
+
 const gameId = window.location.hash.split( '#' )[ 1 ];
 const element = document.querySelector( '#game' );
 
