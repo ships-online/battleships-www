@@ -1,7 +1,7 @@
 {
   "name": "battleships-www",
   "version": "0.0.1",
-  "description": "Batelfield browser game.",
+  "description": "The browser version of Battleships game.",
   "scripts": {
     "lint": "./node_modules/.bin/gulp lint",
     "test": "./node_modules/.bin/gulp test",
@@ -11,6 +11,10 @@
     "battleships",
     "game"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ships-online/battleships-www.git"
+  },
   "author": "Oskar Wróbel <kontakt@oskarwrobel.pl>",
   "license": "ISC",
   "dependencies": {
