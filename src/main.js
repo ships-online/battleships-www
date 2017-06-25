@@ -6,7 +6,7 @@ const gameId = window.location.hash.split( '#' )[ 1 ];
 const element = document.querySelector( '#game' );
 
 function createGame() {
-	Battleships.create( 10, { 1: 1 } )
+	Battleships.create( 10 )
 		.then( game => game.renderGameToElement( element ) )
 		.then( game => game.start() )
 		.catch( ( error ) => showGameOverScreen( error ) );
