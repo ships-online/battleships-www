@@ -4,26 +4,21 @@ const config = {
 	ROOT_PATH: __dirname
 };
 
+const path = require( 'path' );
 const gulp = require( 'gulp' );
-
 const utils = require( 'battleships-dev-tools/lib/utils.js' );
-const linkTasks = require( 'battleships-dev-tools/lib/tasks/relink.js' )( config );
 const lintTasks = require( 'battleships-dev-tools/lib/tasks/lint.js' )( config );
 const testTasks = require( 'battleships-dev-tools/lib/tasks/test.js' )( config );
 const compileTasks = require( 'battleships-dev-tools/lib/tasks/compile.js' )( config );
 
 const options = utils.parseArgs( process.argv.slice( 3 ) );
 
-gulp.task( 'relink', linkTasks.relink );
-
-// Compile engine to esnext format.
-gulp.task( 'clean:battleships', () => utils.del( './lib/battleships' ) );
-gulp.task( 'battleships:compile', [ 'clean:battleships' ], () => {
-	return compileTasks.compileGame( {
-		destination: 'lib/battleships/',
-		fileName: 'Battleships.js',
-		themes: [ 'wireframe' ]
-	}, options );
+gulp.task( 'clean:build', () => utils.del( './build' ) );
+gulp.task( 'build', [ 'clean:build' ], () => {
+	return compileTasks.build( Object.assign( {
+		inputPath: path.join( config.ROOT_PATH, 'src', 'main.js' ),
+		outputPath: path.join( config.ROOT_PATH, 'build', 'main.js' )
+	}, options ) );
 } );
 
 gulp.task( 'lint', lintTasks.lint );

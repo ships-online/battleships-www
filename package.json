@@ -4,7 +4,8 @@
   "description": "Batelfield browser game.",
   "scripts": {
     "lint": "./node_modules/.bin/gulp lint",
-    "test": "./node_modules/.bin/gulp test"
+    "test": "./node_modules/.bin/gulp test",
+    "start": "./node_modules/.bin/http-server ."
   },
   "keywords": [
     "battleships",
@@ -12,14 +13,19 @@
   ],
   "author": "Oskar Wróbel <kontakt@oskarwrobel.pl>",
   "license": "ISC",
+  "dependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.0",
+    "battleships-core": "https://github.com/ships-online/battleships-core.git",
+    "battleships-engine": "https://github.com/ships-online/battleships-engine.git",
+    "battleships-theme-wireframe": "https://github.com/ships-online/battleships-theme-wireframe.git",
+    "battleships-ui-vanilla": "https://github.com/ships-online/battleships-ui-vanilla.git"
+  },
   "devDependencies": {
-    "gulp": "^3.9.1",
-    "battleships-dev-tools": "../battleships-dev-tools",
-    "battleships-engine": "../battleships-engine",
-    "battleships-ui-vanilla": "../battleships-ui-vanilla",
-    "battleships-theme-wireframe": "../battleships-theme-wireframe",
-    "battleships-core": "../battleships-core",
+    "battleships-dev-tools": "https://github.com/ships-online/battleships-dev-tools.git",
     "del": "^2.2.2",
-    "guppy-pre-commit": "^0.4.0"
+    "gulp": "^3.9.1",
+    "guppy-pre-commit": "^0.4.0",
+    "http-server": "^0.10.0"
   }
 }
