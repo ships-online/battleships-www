@@ -25,4 +25,15 @@ gulp.task( 'lint', lintTasks.lint );
 gulp.task( 'pre-commit', lintTasks.lintStaged );
 
 // JS unit tests.
-gulp.task( 'test', ( done ) => testTasks.test( options, done ) );
+gulp.task( 'test', ( done ) => {
+	if ( options.files.some( f => f == '*' ) ) {
+		options.files = [
+			'tests/**/*.js',
+			'packages/battleships-core/tests/**/*.js',
+			'packages/battleships-engine/tests/**/*.js',
+			'packages/battleships-ui-vanilla/tests/**/*.js'
+		];
+	}
+
+	testTasks.test( options, done );
+} );
