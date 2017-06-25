@@ -1,5 +1,5 @@
 # These files will be ignored by Git and linting tools:
-#	gulp jslint
+#	gulp lint
 #
 # Be sure to append /** to folders to have everything inside them ignored.
 
@@ -8,6 +8,8 @@
 
 .idea
 .npm-debug.log
+package-lock.json
 node_modules/**
 coverage/**
-lib/**
+packages/**
+build/**
