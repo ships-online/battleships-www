@@ -3,6 +3,7 @@ body {
 	margin: 0;
 	padding: 0;
 	font-family: Arial, sans-serif;
+	color: #4c4c4c;
 }
 
 .wrapper {
@@ -15,20 +16,25 @@ body {
 }
 
 header {
-	padding: 0 5px;
+	padding: 0 5px 20px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	max-width: 680px;
 
 	h1 {
-		margin: 20px 0;
+		flex: 0 0 auto;
 		font-size: 24px;
 		text-align: left;
+		padding-right: 20px;
 	}
 
-	.notification {
-		background: #f3f3f3;
-		padding: 20px;
-		border-radius: 4px;
+	.notification-wrapper {
+		flex: 1 1 auto;
+
+		.notification {
+			border-top-left-radius: 0;
+			border-top-right-radius: 0;
+		}
 	}
 }

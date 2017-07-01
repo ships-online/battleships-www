@@ -1,5 +1,5 @@
 import Battleships from 'battleships-core/src/game';
-import createNotification from 'battleships-core/src/helpers/createnotification';
+import NotificationView from 'battleships-ui-vanilla/src/notificationview';
 
 import './main.scss';
 
@@ -9,13 +9,7 @@ const notificationWrapper = document.querySelector( '.notification-wrapper' );
 
 function createGame() {
 	Battleships.create()
-		.then( game => {
-			game.renderGameToElement( element );
-			notificationWrapper.appendChild( createNotification( game ) );
-
-			return game;
-		} )
-		.then( game => game.start() )
+		.then( initGame )
 		.catch( ( error ) => showGameOverScreen( error ) );
 }
 
@@ -34,16 +28,20 @@ function showGameOverScreen( error ) {
 	element.appendChild( button );
 }
 
+function initGame( game ) {
+	const notification = new NotificationView( game );
+
+	notificationWrapper.appendChild( notification.render() );
+	game.renderGameToElement( element );
+	game.start();
+
+	return game;
+}
+
 if ( !gameId ) {
 	createGame();
 } else {
 	Battleships.join( gameId )
-		.then( game => {
-			game.renderGameToElement( element );
-			notificationWrapper.appendChild( createNotification( game ) );
-
-			return game;
-		} )
-		.then( game => game.start() )
+		.then( initGame )
 		.catch( error => showGameOverScreen( error ) );
 }
