@@ -30,7 +30,6 @@
     "babel-loader": "^7.1.0",
     "battleships-dev-tools": "https://github.com/ships-online/battleships-dev-tools.git",
     "css-loader": "^0.28.4",
-    "del": "^2.2.2",
     "file-loader": "^0.11.2",
     "gulp": "^3.9.1",
     "guppy-pre-commit": "^0.4.0",
