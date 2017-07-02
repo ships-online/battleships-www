@@ -3,8 +3,10 @@
   "version": "0.0.1",
   "description": "The browser version of Battleships game.",
   "scripts": {
+    "packages": "./node_modules/.bin/mgit2 bootstrap",
+    "build": "./node_modules/.bin/gulp build",
     "lint": "./node_modules/.bin/gulp lint",
-    "test": "./node_modules/.bin/gulp test",
+    "test": "./node_modules/.bin/gulp test --files tests",
     "start": "./node_modules/.bin/http-server ."
   },
   "keywords": [
@@ -21,7 +23,8 @@
     "battleships-core": "https://github.com/ships-online/battleships-core.git",
     "battleships-engine": "https://github.com/ships-online/battleships-engine.git",
     "battleships-theme-wireframe": "https://github.com/ships-online/battleships-theme-wireframe.git",
-    "battleships-ui-vanilla": "https://github.com/ships-online/battleships-ui-vanilla.git"
+    "battleships-ui-vanilla": "https://github.com/ships-online/battleships-ui-vanilla.git",
+    "mgit2": "^0.5.1"
   },
   "devDependencies": {
     "babel-loader": "^7.1.0",
