@@ -6,7 +6,7 @@
     "packages": "./node_modules/.bin/mgit2 bootstrap",
     "build": "./node_modules/.bin/gulp build",
     "lint": "./node_modules/.bin/gulp lint",
-    "test": "./node_modules/.bin/gulp test --files tests",
+    "test": "./node_modules/.bin/gulp test --files tests -c",
     "start": "./node_modules/.bin/http-server ."
   },
   "keywords": [
