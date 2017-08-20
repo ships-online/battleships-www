@@ -1,10 +1,13 @@
 import Battleships from 'battleships-core/src/game';
 import NotificationView from 'battleships-ui-vanilla/src/notificationview';
+import GameOverView from 'battleships-ui-vanilla/src/gameoverview';
 import './main.scss';
 
 const gameId = window.location.hash.split( '#' )[ 1 ];
 const element = document.querySelector( '#game' );
 const notificationWrapper = document.querySelector( '.notification-wrapper' );
+
+let notification;
 
 if ( !gameId ) {
 	createGame();
@@ -21,7 +24,7 @@ function createGame() {
 }
 
 function initGame( game ) {
-	const notification = new NotificationView( game );
+	notification = new NotificationView( game );
 
 	notificationWrapper.appendChild( notification.render() );
 	game.renderGameToElement( element );
@@ -30,16 +33,17 @@ function initGame( game ) {
 }
 
 function showGameOverScreen( error ) {
-	const button = document.createElement( 'button' );
+	if ( notification ) {
+		notification.destroy();
+	}
 
-	button.textContent = 'New game';
-	button.addEventListener( 'click', () => {
-		history.pushState( '', document.title, window.location.pathname + window.location.search );
-		element.innerHTML = '';
-		createGame();
+	const gameOverView = new GameOverView( {
+		error: error,
+		action: () => {
+			window.location = window.location.pathname;
+			gameOverView.destroy();
+		}
 	} );
 
-	notificationWrapper.innerHTML = '';
-	element.innerHTML = 'This game is not available because: ' + error;
-	element.appendChild( button );
+	element.appendChild( gameOverView.render() );
 }
