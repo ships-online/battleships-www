@@ -15,7 +15,7 @@ if ( !gameId ) {
 }
 
 function createGame() {
-	Battleships.create( 10, { 2: 1 } )
+	Battleships.create()
 		.then( game => initGame( game ) )
 		.catch( error => showGameOverScreen( error ) );
 }
