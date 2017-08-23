@@ -18,7 +18,11 @@ if ( !gameId ) {
 }
 
 function createGame() {
-	Battleships.create()
+	let { config } = parseParams( window.location.search.substring( 1 ) );
+
+	config = config ? JSON.parse( decodeURI( config ) ) : {};
+
+	Battleships.create( config.size, config.ships )
 		.then( game => initGame( game ) )
 		.catch( error => showGameOverScreen( error ) );
 }
@@ -46,4 +50,16 @@ function showGameOverScreen( error ) {
 	} );
 
 	element.appendChild( gameOverView.render() );
+}
+
+function parseParams( paramsString ) {
+	const params = paramsString.split( '&' );
+
+	return params.reduce( ( result, param ) => {
+		param = param.split( '=' );
+
+		result[ param[ 0 ] ] = param[ 1 ];
+
+		return result;
+	}, {} );
 }
