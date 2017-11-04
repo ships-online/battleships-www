@@ -5,9 +5,10 @@
   "scripts": {
     "packages": "./node_modules/.bin/mgit2 bootstrap",
     "build": "./node_modules/.bin/gulp build",
-    "lint": "./node_modules/.bin/gulp lint",
     "test": "./node_modules/.bin/gulp test --files tests -c",
-    "start": "./node_modules/.bin/http-server ."
+    "start": "./node_modules/.bin/http-server .",
+    "lint": "eslint --quiet '**/*.js'",
+    "precommit": "lint-staged"
   },
   "keywords": [
     "battleships",
@@ -30,11 +31,24 @@
     "battleships-dev-tools": "https://github.com/ships-online/battleships-dev-tools.git",
     "css-loader": "^0.28.4",
     "file-loader": "^0.11.2",
+    "eslint": "^4.10.0",
+    "eslint-config-ckeditor5": "^1.0.6",
     "gulp": "^3.9.1",
-    "guppy-pre-commit": "^0.4.0",
+    "husky": "^0.14.3",
+    "lint-staged": "^4.3.0",
     "http-server": "^0.10.0",
     "mgit2": "^0.7.2",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2"
-  }
+  },
+  "lint-staged": {
+    "**/*.js": [
+      "eslint --quiet"
+    ]
+  },
+  "eslintIgnore": [
+    "coverage/**",
+    "build/**",
+    "packages/**"
+  ]
 }

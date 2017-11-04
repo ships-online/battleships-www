@@ -10,19 +10,15 @@ const notificationWrapper = document.querySelector( '.notification-wrapper' );
 let notification;
 
 if ( !gameId ) {
-	createGame();
-} else {
-	Battleships.join( gameId )
-		.then( game => initGame( game ) )
-		.catch( error => showGameOverScreen( error ) );
-}
-
-function createGame() {
 	let { config } = parseParams( window.location.search.substring( 1 ) );
 
 	config = config ? JSON.parse( decodeURI( config ) ) : {};
 
 	Battleships.create( config.size, config.ships )
+		.then( game => initGame( game ) )
+		.catch( error => showGameOverScreen( error ) );
+} else {
+	Battleships.join( gameId )
 		.then( game => initGame( game ) )
 		.catch( error => showGameOverScreen( error ) );
 }
@@ -31,7 +27,7 @@ function initGame( game ) {
 	notification = new NotificationView( game );
 
 	notificationWrapper.appendChild( notification.render() );
-	game.renderGameToElement( element );
+	element.appendChild( game.view.render() );
 
 	return game.start();
 }
