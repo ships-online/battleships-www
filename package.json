@@ -3,10 +3,10 @@
   "version": "0.0.1",
   "description": "The browser version of Battleships game.",
   "scripts": {
-    "packages": "./node_modules/.bin/mgit2 bootstrap",
-    "build": "./node_modules/.bin/gulp build",
-    "test": "./node_modules/.bin/gulp test --files tests -c",
-    "start": "./node_modules/.bin/http-server .",
+    "build": "battleships-build --input src/main.js --output build/main.js",
+    "test": "battleships-test",
+    "packages": "mgit2 bootstrap",
+    "start": "http-server .",
     "lint": "eslint --quiet '**/*.js'",
     "precommit": "lint-staged"
   },
@@ -33,7 +33,6 @@
     "file-loader": "^0.11.2",
     "eslint": "^4.10.0",
     "eslint-config-ckeditor5": "^1.0.6",
-    "gulp": "^3.9.1",
     "husky": "^0.14.3",
     "lint-staged": "^4.3.0",
     "http-server": "^0.10.0",
