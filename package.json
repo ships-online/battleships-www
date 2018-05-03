@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "The browser version of Battleships game.",
   "scripts": {
-    "build": "battleships-build --input src/main.js --output build/main.js",
+    "build": "webpack",
     "test": "battleships-test",
     "packages": "mgit2 bootstrap",
     "start": "http-server .",
@@ -24,16 +24,27 @@
     "battleships-core": "https://github.com/ships-online/battleships-core.git",
     "battleships-engine": "https://github.com/ships-online/battleships-engine.git",
     "battleships-theme-wireframe": "https://github.com/ships-online/battleships-theme-wireframe.git",
-    "battleships-ui-vanilla": "https://github.com/ships-online/battleships-ui-vanilla.git"
+    "battleships-ui-vue": "https://github.com/ships-online/battleships-ui-vue.git"
   },
   "devDependencies": {
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "battleships-dev-tools": "https://github.com/ships-online/battleships-dev-tools.git",
+    "css-loader": "^0.28.0",
     "eslint": "^4.10.0",
     "eslint-config-ckeditor5": "^1.0.6",
+    "file-loader": "^0.11.1",
+    "http-server": "^0.10.0",
     "husky": "^0.14.3",
     "lint-staged": "^4.3.0",
-    "http-server": "^0.10.0",
-    "mgit2": "^0.7.2"
+    "mgit2": "^0.7.2",
+    "minimist": "^1.2.0",
+    "node-sass": "^4.5.3",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.18.2",
+    "vue": "^2.5.16",
+    "vue-loader": "^14.2.2",
+    "webpack": "^3.5.5"
   },
   "lint-staged": {
     "**/*.js": [
