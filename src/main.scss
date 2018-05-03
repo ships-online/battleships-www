@@ -14,28 +14,3 @@ body {
 #game {
 	margin: 5px;
 }
-
-header {
-	padding: 0 5px 20px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	max-width: 800px;
-	margin: 0 auto;
-
-	h1 {
-		flex: 0 0 auto;
-		font-size: 24px;
-		text-align: left;
-		padding-right: 20px;
-	}
-
-	.notification-wrapper {
-		flex: 1 1 auto;
-
-		.notification {
-			border-top-left-radius: 0;
-			border-top-right-radius: 0;
-		}
-	}
-}
