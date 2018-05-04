@@ -2,7 +2,7 @@
   "dependencies": {
     "battleships-core": "https://github.com/ships-online/battleships-core.git",
     "battleships-engine": "https://github.com/ships-online/battleships-engine.git",
-    "battleships-theme-wireframe": "https://github.com/ships-online/battleships-theme-wireframe.git",
+    "battleships-theme": "https://github.com/ships-online/battleships-theme.git",
     "battleships-ui-vue": "https://github.com/ships-online/battleships-ui-vue.git"
   }
 }

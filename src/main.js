@@ -4,7 +4,7 @@ import Battleships from 'battleships-core/src/game';
 import { getGameId } from './utils.js';
 import { createGameView } from 'battleships-ui-vue/src/utils.js';
 
-import 'battleships-theme-wireframe/src/styles/style.scss';
+import 'battleships-theme/src/styles/style.scss';
 import './main.scss';
 
 createGame( getGameId() )
