@@ -8,8 +8,6 @@ import Game from 'battleships-ui-vue/src/game.vue';
 import 'battleships-theme/src/styles/style.scss';
 import './main.scss';
 
-let gameView;
-
 createGame( getGameId() )
 	.then( game => initGame( game ) )
 	.catch( error => showGameOverScreen( error ) );
@@ -25,7 +23,8 @@ function createGame( gameId ) {
 function initGame( game ) {
 	window.game = game;
 
-	gameView = new Vue( {
+	// eslint-disable-next-line no-new
+	new Vue( {
 		el: '#game',
 		data: { game },
 		render: h => h( Game )
@@ -34,5 +33,4 @@ function initGame( game ) {
 
 function showGameOverScreen( error ) {
 	console.error( error );
-	gameView.$destroy();
 }
