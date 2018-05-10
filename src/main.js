@@ -10,7 +10,7 @@ import './main.scss';
 
 createGame( getGameId() )
 	.then( game => initGame( game ) )
-	.catch( error => showGameOverScreen( error ) );
+	.catch( error => console.error( error ) );
 
 function createGame( gameId ) {
 	if ( gameId ) {
@@ -22,6 +22,8 @@ function createGame( gameId ) {
 
 function initGame( game ) {
 	window.game = game;
+
+	game.on( 'error', ( evt, error ) => showGameOverScreen( error ) );
 
 	// eslint-disable-next-line no-new
 	new Vue( {
