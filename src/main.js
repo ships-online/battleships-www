@@ -58,15 +58,11 @@ function handleNewSettings( size, shipsSchema ) {
 		.catch( error => console.error( error ) );
 }
 
-const settings = new Vue( {
+// eslint-disable-next-line no-new
+new Vue( {
 	el: '#settings',
 	data: {
-		isVisible: false,
 		onChange: handleNewSettings
 	},
 	render: h => h( Settings )
-} );
-
-document.querySelector( '.settings' ).addEventListener( 'click', () => {
-	settings.isVisible = !settings.isVisible;
 } );
