@@ -26,6 +26,7 @@
     "battleships-ui-vue": "https://github.com/ships-online/battleships-ui-vue.git"
   },
   "devDependencies": {
+    "@ckeditor/ckeditor5-utils": "^10.0.0",
     "babel-loader": "^7.1.4",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "battleships-dev-tools": "https://github.com/ships-online/battleships-dev-tools.git",
