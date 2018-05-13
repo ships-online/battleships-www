@@ -1,32 +1,38 @@
 /* global SOCKET_URL */
 
 import Battleships from 'battleships-core/src/game';
-import { getGameId } from './utils.js';
 import Vue from 'vue';
 import Game from 'battleships-ui-vue/src/game.vue';
+import Settings from 'battleships-ui-vue/src/settings.vue';
+import { getGameId } from './utils.js';
+import isEqual from '@ckeditor/ckeditor5-utils/src/lib/lodash/isEqual';
 
 import 'battleships-theme/src/styles/style.scss';
 import './main.scss';
+
+let game, gameView;
 
 createGame( getGameId() )
 	.then( game => initGame( game ) )
 	.catch( error => console.error( error ) );
 
-function createGame( gameId ) {
-	if ( gameId ) {
-		return Battleships.join( SOCKET_URL, gameId );
+function createGame( idOrSettings ) {
+	if ( typeof idOrSettings === 'string' ) {
+		return Battleships.join( SOCKET_URL, idOrSettings );
 	}
 
-	return Battleships.create( SOCKET_URL );
+	return Battleships.create( SOCKET_URL, idOrSettings );
 }
 
-function initGame( game ) {
+function initGame( newGame ) {
+	game = newGame;
+
+	// tmp
 	window.game = game;
 
 	game.on( 'error', ( evt, error ) => showGameOverScreen( error ) );
 
-	// eslint-disable-next-line no-new
-	new Vue( {
+	gameView = new Vue( {
 		el: '#game',
 		data: { game },
 		render: h => h( Game )
@@ -36,3 +42,31 @@ function initGame( game ) {
 function showGameOverScreen( error ) {
 	console.error( error );
 }
+
+function handleNewSettings( size, shipsSchema ) {
+	const battlefield = game.player.battlefield;
+
+	if ( battlefield.size === size && isEqual( battlefield.shipsSchema, shipsSchema ) ) {
+		return;
+	}
+
+	gameView.$destroy();
+	document.querySelector( '.wrapper' ).innerHTML = '<div id="game" class="battleships"></div>';
+
+	createGame( { size, shipsSchema } )
+		.then( game => initGame( game ) )
+		.catch( error => console.error( error ) );
+}
+
+const settings = new Vue( {
+	el: '#settings',
+	data: {
+		isVisible: false,
+		onChange: handleNewSettings
+	},
+	render: h => h( Settings )
+} );
+
+document.querySelector( '.settings' ).addEventListener( 'click', () => {
+	settings.isVisible = !settings.isVisible;
+} );
