@@ -8,7 +8,7 @@ import { getGameId } from './utils.js';
 import isEqual from '@ckeditor/ckeditor5-utils/src/lib/lodash/isEqual';
 
 import 'battleships-theme/src/styles/style.scss';
-import './main.scss';
+import '../styles/main.scss';
 
 let game, gameView;
 
