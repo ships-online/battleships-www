@@ -31,7 +31,8 @@ module.exports = options => {
 			new webpack.DefinePlugin( options.environment ),
 			new ExtractTextPlugin( '[hash].app.css' ),
 			new HtmlWebpackPlugin( {
-				template: './src/index.html'
+				template: './src/index.html',
+				socketUrl: options[ 'socket-url' ]
 			} )
 		],
 
@@ -77,6 +78,7 @@ module.exports = options => {
 				},
 				{
 					test: /\.html$/,
+					exclude: /index\.html$/,
 					use: {
 						loader: 'html-loader',
 						options: {
@@ -85,7 +87,7 @@ module.exports = options => {
 					}
 				}
 			]
-		},
+		}
 	};
 
 	if ( options.sourceMap ) {

@@ -4,6 +4,8 @@
   "description": "The browser version of Battleships game.",
   "scripts": {
     "build": "rm -rf ./build && node ./dev/build",
+    "build:production": "npm run build -- --minify --socket-url shipsserver.oskarwrobel.pl",
+    "deploy": "node ./dev/deploy",
     "test": "battleships-test",
     "serve": "http-server build",
     "lint": "eslint --quiet '**/*.js'",
@@ -32,6 +34,7 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "battleships-dev-tools": "https://github.com/ships-online/battleships-dev-tools.git",
     "css-loader": "^0.28.0",
+    "deploy-tools": "https://github.com/oskarwrobel/deploy-tools.git",
     "eslint": "^4.10.0",
     "eslint-config-ckeditor5": "^1.0.6",
     "extract-text-webpack-plugin": "^3.0.2",
