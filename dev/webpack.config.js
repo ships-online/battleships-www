@@ -5,7 +5,6 @@
 const path = require( 'path' );
 const webpack = require( 'webpack' );
 const BabiliPlugin = require( 'babel-minify-webpack-plugin' );
-const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
 const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
 
 module.exports = options => {
@@ -29,7 +28,6 @@ module.exports = options => {
 
 		plugins: [
 			new webpack.DefinePlugin( options.environment ),
-			new ExtractTextPlugin( '[hash].app.css' ),
 			new HtmlWebpackPlugin( {
 				template: './src/index.html',
 				socketUrl: options[ 'socket-url' ]
@@ -55,22 +53,25 @@ module.exports = options => {
 					loader: 'vue-loader'
 				},
 				{
-					test: /\.scss$/,
-					use: ExtractTextPlugin.extract( {
-						publicPath: './',
-						fallback: 'style-loader',
-						use: [
-							{
-								loader: 'css-loader',
-								options: {
-									minimize: options.minify
-								}
-							},
-							{
-								loader: 'sass-loader'
+					test: /\.css$/,
+					use: [
+						{
+							loader: 'style-loader'
+						},
+						{
+							loader: 'css-loader',
+							options: {
+								importLoaders: 1
 							}
-						]
-					} )
+						},
+						{
+							loader: 'postcss-loader',
+							options: {
+								ident: 'postcss',
+								plugins: loader => getPostCssPlugins( loader, options )
+							}
+						}
+					]
 				},
 				{
 					test: /.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
@@ -109,3 +110,16 @@ module.exports = options => {
 
 	return webpackConfig;
 };
+
+function getPostCssPlugins( loader, options ) {
+	const plugins = [
+		require( 'postcss-import' )( { root: loader.resourcePath } ),
+		require( 'postcss-nested' )
+	];
+
+	if ( options.minify ) {
+		plugins.push( require( 'cssnano' )() );
+	}
+
+	return plugins;
+}
