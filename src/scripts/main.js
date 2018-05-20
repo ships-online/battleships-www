@@ -3,6 +3,7 @@
 import Battleships from 'battleships-core/src/game';
 import Vue from 'vue';
 import Game from 'battleships-ui-vue/src/game.vue';
+import GameOver from 'battleships-ui-vue/src/gameover.vue';
 import Settings from 'battleships-ui-vue/src/settings.vue';
 import { getGameId } from './utils.js';
 import isEqual from '@ckeditor/ckeditor5-utils/src/lib/lodash/isEqual';
@@ -10,24 +11,30 @@ import isEqual from '@ckeditor/ckeditor5-utils/src/lib/lodash/isEqual';
 import 'battleships-theme/src/styles/index.css';
 import '../styles/main.css';
 
-let game, gameView;
-
-// Render game settings dropdown.
-const settingsView = new Vue( {
-	el: '#settings',
-	data: {
-		onChange: handleNewSettings,
-		disabled: true
-	},
-	render: h => h( Settings )
-} );
+let game, gameView, gameOverView, settingsView;
 
 // Create the game on init.
 createGame( getGameId() )
-	.then( game => initGame( game ) )
-	.catch( error => console.error( error ) );
+	.then( game => {
+		initGame( game );
+		settingsView = new Vue( {
+			el: '#settings',
+			data: {
+				onChange: handleNewSettings,
+				disabled: true
+			},
+			render: h => h( Settings )
+		} );
+	} )
+	.catch( error => showGameOverScreen( error ) );
 
 function createGame( idOrSettings ) {
+	if ( gameOverView ) {
+		gameOverView.$destroy();
+		document.querySelector( '#game' ).innerHTML = '';
+		gameOverView = null;
+	}
+
 	if ( typeof idOrSettings === 'string' ) {
 		return Battleships.join( SOCKET_URL, idOrSettings );
 	}
@@ -38,7 +45,7 @@ function createGame( idOrSettings ) {
 function initGame( newGame ) {
 	game = newGame;
 
-	// tmp
+	// Tmp.
 	window.game = game;
 
 	game.on( 'error', ( evt, error ) => showGameOverScreen( error ) );
@@ -59,11 +66,25 @@ function initGame( newGame ) {
 }
 
 function showGameOverScreen( error ) {
-	console.error( error );
-}
+	if ( gameOverView ) {
+		throw new Error( 'Game over view already rendered.' );
+	}
 
-function updateDisabledSettings( game ) {
-	settingsView.disabled = game.status !== 'available' || game.interestedPlayersNumber > 0 || game.player.isReady;
+	if ( gameView ) {
+		gameView.$destroy();
+	}
+
+	if ( settingsView ) {
+		settingsView.$destroy();
+	}
+
+	document.querySelector( 'main' ).innerHTML = '';
+
+	gameOverView = new Vue( {
+		el: 'main',
+		data: { error },
+		render: h => h( GameOver )
+	} );
 }
 
 function handleNewSettings( size, shipsSchema ) {
@@ -79,4 +100,8 @@ function handleNewSettings( size, shipsSchema ) {
 	createGame( { size, shipsSchema } )
 		.then( game => initGame( game ) )
 		.catch( error => console.error( error ) );
+}
+
+function updateDisabledSettings( game ) {
+	settingsView.disabled = game.status !== 'available' || game.interestedPlayersNumber > 0 || game.player.isReady;
 }

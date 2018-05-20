@@ -5,11 +5,13 @@
 	<title>Battleships</title>
 </head>
 <body class="battleships">
-	<div class="wrapper">
-		<div id="game" class="battleships"></div>
-	</div>
+	<main>
+		<div class="wrapper">
+			<div id="game" class="battleships"></div>
+		</div>
 
-	<button id="settings" class="settings-button">Settings</button>
+		<button id="settings" class="settings-button">Settings</button>
+	</main>
 
 	<script src="http://${ htmlWebpackPlugin.options.socketUrl }/socket.io/socket.io.js"></script>
 </body>
