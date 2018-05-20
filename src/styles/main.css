@@ -15,6 +15,11 @@ body {
 	margin: 5px;
 }
 
+main.ready {
+	transition: opacity .2s;
+	opacity: 1;
+}
+
 .battleships {
 	.settings {
 		position: absolute;

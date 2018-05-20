@@ -13,10 +13,12 @@ import '../styles/main.css';
 
 let game, gameView, gameOverView, settingsView;
 
+const mainEl = document.querySelector( 'main' );
+const gameEl = document.querySelector( '#game' );
+
 // Create the game on init.
 createGame( getGameId() )
 	.then( game => {
-		initGame( game );
 		settingsView = new Vue( {
 			el: '#settings',
 			data: {
@@ -25,13 +27,16 @@ createGame( getGameId() )
 			},
 			render: h => h( Settings )
 		} );
+		initGame( game );
+
+		mainEl.classList.add( 'ready' );
 	} )
 	.catch( error => showGameOverScreen( error ) );
 
 function createGame( idOrSettings ) {
 	if ( gameOverView ) {
 		gameOverView.$destroy();
-		document.querySelector( '#game' ).innerHTML = '';
+		gameEl.innerHTML = '';
 		gameOverView = null;
 	}
 
@@ -66,6 +71,8 @@ function initGame( newGame ) {
 }
 
 function showGameOverScreen( error ) {
+	console.error( error );
+
 	if ( gameOverView ) {
 		throw new Error( 'Game over view already rendered.' );
 	}
@@ -78,7 +85,7 @@ function showGameOverScreen( error ) {
 		settingsView.$destroy();
 	}
 
-	document.querySelector( 'main' ).innerHTML = '';
+	mainEl.innerHTML = '';
 
 	gameOverView = new Vue( {
 		el: 'main',
