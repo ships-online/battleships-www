@@ -12,6 +12,17 @@ import '../styles/main.css';
 
 let game, gameView;
 
+// Render game settings dropdown.
+const settingsView = new Vue( {
+	el: '#settings',
+	data: {
+		onChange: handleNewSettings,
+		disabled: true
+	},
+	render: h => h( Settings )
+} );
+
+// Create the game on init.
 createGame( getGameId() )
 	.then( game => initGame( game ) )
 	.catch( error => console.error( error ) );
@@ -32,6 +43,14 @@ function initGame( newGame ) {
 
 	game.on( 'error', ( evt, error ) => showGameOverScreen( error ) );
 
+	if ( game.player.isHost ) {
+		updateDisabledSettings( game );
+
+		game.on( 'change:interestedPlayersNumber', () => updateDisabledSettings( game ) );
+		game.on( 'change:state', () => updateDisabledSettings( game ) );
+		game.player.on( 'change:isReady', () => updateDisabledSettings( game ) );
+	}
+
 	gameView = new Vue( {
 		el: '#game',
 		data: { game },
@@ -41,6 +60,10 @@ function initGame( newGame ) {
 
 function showGameOverScreen( error ) {
 	console.error( error );
+}
+
+function updateDisabledSettings( game ) {
+	settingsView.disabled = game.status !== 'available' || game.interestedPlayersNumber > 0 || game.player.isReady;
 }
 
 function handleNewSettings( size, shipsSchema ) {
@@ -57,12 +80,3 @@ function handleNewSettings( size, shipsSchema ) {
 		.then( game => initGame( game ) )
 		.catch( error => console.error( error ) );
 }
-
-// eslint-disable-next-line no-new
-new Vue( {
-	el: '#settings',
-	data: {
-		onChange: handleNewSettings
-	},
-	render: h => h( Settings )
-} );
