@@ -48,9 +48,9 @@
     "postcss-import": "^11.1.0",
     "postcss-loader": "^2.1.5",
     "postcss-nested": "^3.0.0",
-    "style-loader": "^0.18.2",
     "vue": "^2.5.16",
     "vue-loader": "^14.2.2",
+    "vue-style-loader": "^4.1.0",
     "vue-template-compiler": "^2.5.16",
     "webpack": "^3.5.5"
   },

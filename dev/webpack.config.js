@@ -50,13 +50,16 @@ module.exports = options => {
 				},
 				{
 					test: /\.vue$/,
-					loader: 'vue-loader'
+					loader: 'vue-loader',
+					options: {
+						postcss: getPostCssPlugins( options )
+					}
 				},
 				{
 					test: /\.css$/,
 					use: [
 						{
-							loader: 'style-loader'
+							loader: 'vue-style-loader',
 						},
 						{
 							loader: 'css-loader',
@@ -68,7 +71,7 @@ module.exports = options => {
 							loader: 'postcss-loader',
 							options: {
 								ident: 'postcss',
-								plugins: loader => getPostCssPlugins( loader, options )
+								plugins: getPostCssPlugins( options )
 							}
 						}
 					]
@@ -111,15 +114,10 @@ module.exports = options => {
 	return webpackConfig;
 };
 
-function getPostCssPlugins( loader, options ) {
-	const plugins = [
-		require( 'postcss-import' )( { root: loader.resourcePath } ),
-		require( 'postcss-nested' )
+function getPostCssPlugins( options ) {
+	return [
+		require( 'postcss-import' )(),
+		require( 'postcss-nested' )(),
+		...( options.minify ? [ require( 'cssnano' )() ] : [] )
 	];
-
-	if ( options.minify ) {
-		plugins.push( require( 'cssnano' )() );
-	}
-
-	return plugins;
 }

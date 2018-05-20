@@ -7,7 +7,7 @@ import Settings from 'battleships-ui-vue/src/settings.vue';
 import { getGameId } from './utils.js';
 import isEqual from '@ckeditor/ckeditor5-utils/src/lib/lodash/isEqual';
 
-import 'battleships-theme/src/styles/style.css';
+import 'battleships-theme/src/styles/index.css';
 import '../styles/main.css';
 
 let game, gameView;
