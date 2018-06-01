@@ -6,6 +6,7 @@ const path = require( 'path' );
 const webpack = require( 'webpack' );
 const BabiliPlugin = require( 'babel-minify-webpack-plugin' );
 const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
+const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
 
 module.exports = options => {
 	const webpackConfig = {
@@ -31,7 +32,10 @@ module.exports = options => {
 			new HtmlWebpackPlugin( {
 				template: './src/index.html',
 				socketUrl: options[ 'socket-url' ]
-			} )
+			} ),
+			new CopyWebpackPlugin( [
+				{ from: './robots.txt', to: './robots.txt' }
+			] )
 		],
 
 		module: {
