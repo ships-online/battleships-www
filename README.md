@@ -6,3 +6,6 @@ Battleships www
 [![Build Status](https://travis-ci.org/ships-online/battleships-www.svg?branch=master)](https://travis-ci.org/ships-online/battleships-www)
 [![Test Coverage](https://lima.codeclimate.com/github/ships-online/battleships-www/badges/coverage.svg)](https://lima.codeclimate.com/github/ships-online/battleships-www/coverage)
 
+## Preview
+
+http://ships.oskarwrobel.pl
