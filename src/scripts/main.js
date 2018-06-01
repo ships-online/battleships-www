@@ -101,6 +101,7 @@ function handleNewSettings( size, shipsSchema ) {
 		return;
 	}
 
+	game.destroy();
 	gameView.$destroy();
 	document.querySelector( '.wrapper' ).innerHTML = '<div id="game" class="battleships"></div>';
 
