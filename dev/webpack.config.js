@@ -115,6 +115,19 @@ module.exports = options => {
 		];
 	}
 
+	if ( options.test ) {
+		webpackConfig.output = webpackConfig.entry = undefined;
+
+		webpackConfig.plugins = [
+			new webpack.DefinePlugin( {
+				'SOCKET_URL': JSON.stringify( 'localhost' ),
+				'process.env': {
+					'NODE_ENV': JSON.stringify( 'test' )
+				}
+			} ),
+		];
+	}
+
 	return webpackConfig;
 };
 

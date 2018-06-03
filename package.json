@@ -6,7 +6,7 @@
     "build": "rm -rf ./build && node ./dev/build",
     "build:production": "npm run build -- --minify --socket-url shipsserver.oskarwrobel.pl",
     "deploy": "node ./dev/deploy",
-    "test": "battleships-test",
+    "test": "battleships-test --config ./dev/webpack.config.js",
     "serve": "http-server build",
     "lint": "eslint --quiet '**/*.js'",
     "precommit": "lint-staged"
