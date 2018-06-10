@@ -98,10 +98,6 @@ module.exports = options => {
 		}
 	};
 
-	if ( options.sourceMap ) {
-		webpackConfig.devtool = 'inline-source-map';
-	}
-
 	if ( options.minify ) {
 		webpackConfig.plugins = [
 			...webpackConfig.plugins,
