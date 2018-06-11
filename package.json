@@ -4,7 +4,7 @@
   "description": "The browser version of Battleships game.",
   "scripts": {
     "build": "rm -rf ./build && node ./dev/build",
-    "build:production": "npm run build -- --minify --socket-url shipsserver.oskarwrobel.pl",
+    "build:production": "npm run build -- --minify --socket-url server.ships-online.com",
     "deploy": "node ./dev/deploy",
     "test": "battleships-test --config ./dev/webpack.config.js",
     "serve": "http-server build",
