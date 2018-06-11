@@ -107,9 +107,12 @@ export function start( socketUrl, mainEl, gameEl, gameId ) {
 		let isDisabled = game.status !== 'available' || game.interestedPlayersNumber > 0 || game.player.isReady;
 		let tooltip = '';
 
-		if ( game.status !== 'available' || game.player.isReady ) {
+		if ( game.status !== 'available' ) {
 			isDisabled = true;
-			tooltip = 'Cannot change game settings<br>when you are ready';
+			tooltip = 'Cannot change game settings<br>after the game has started';
+		} else if ( game.player.isReady ) {
+			isDisabled = true;
+			tooltip = 'Cannot change game settings<br>when you are ready for the battle';
 		} else if ( game.interestedPlayersNumber > 0 ) {
 			isDisabled = true;
 			tooltip = 'Cannot change game settings<br>while there are interested players';
