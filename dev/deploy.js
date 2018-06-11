@@ -5,7 +5,7 @@
 const path = require( 'path' );
 const deploy = require( 'deploy-tools/src/deploy' );
 
-const domain = 'ships.oskarwrobel.pl';
+const domain = 'ships-online.com';
 const dest = `domains/${ domain }/public_html`;
 const tmp = `domains/${ domain }/tmp`;
 
