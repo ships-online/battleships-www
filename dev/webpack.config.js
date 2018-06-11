@@ -34,7 +34,7 @@ module.exports = options => {
 				socketUrl: options[ 'socket-url' ]
 			} ),
 			new CopyWebpackPlugin( [
-				{ from: './robots.txt', to: './robots.txt' }
+				{ from: './src/robots.txt', to: './robots.txt' }
 			] )
 		],
 
