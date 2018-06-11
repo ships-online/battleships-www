@@ -43,6 +43,22 @@ export function start( socketUrl, mainEl, gameEl, gameId ) {
 	function initGame( newGame ) {
 		game = newGame;
 
+		setTitleMessage( 'Battleships' );
+
+		game.on( 'change:activePlayerId', () => {
+			if ( game.activePlayerId ) {
+				setTitleMessage( game.activePlayerId === game.player.id ? 'Take a shoot' : 'Wait for the opponent shoot' );
+			} else if ( game.winnerId ) {
+				setTitleMessage( game.winnerId === game.player.id ? 'You won :)' : 'You lost :(' );
+			}
+		} );
+
+		game.on( 'change:status', () => {
+			if ( game.status !== 'battle' && game.status !== 'over' ) {
+				setTitleMessage( 'Battleships' );
+			}
+		} );
+
 		// Tmp.
 		window.game = game;
 
@@ -65,6 +81,8 @@ export function start( socketUrl, mainEl, gameEl, gameId ) {
 
 	function showGameOverScreen( error ) {
 		console.error( error );
+
+		setTitleMessage( 'Game over' );
 
 		if ( gameOverView ) {
 			throw new Error( 'Game over view already rendered.' );
@@ -125,4 +143,8 @@ export function start( socketUrl, mainEl, gameEl, gameId ) {
 
 export function getGameId() {
 	return window.location.hash.split( '#' )[ 1 ];
+}
+
+export default function setTitleMessage( message ) {
+	document.title = message;
 }
