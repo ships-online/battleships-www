@@ -41,18 +41,6 @@ module.exports = options => {
 		module: {
 			rules: [
 				{
-					test: /\.js$/,
-					exclude: file => (
-						/(node_modules\/((?!ckeditor|battleships)[a-z-]+))/.test( file ) &&
-						!/\.vue\.js/.test( file )
-					),
-					loader: 'babel-loader',
-					query: {
-						cacheDirectory: true,
-						plugins: [ require( 'babel-plugin-transform-es2015-modules-commonjs' ) ]
-					}
-				},
-				{
 					test: /\.vue$/,
 					loader: 'vue-loader',
 					options: {
