@@ -16,7 +16,12 @@
 			<div id="game" class="battleships"></div>
 		</div>
 
-		<button id="settings" class="settings-button">Settings</button>
+		<div class="additional">
+			<button id="settings" class="settings-button">Settings</button>
+			<a href="https://github.com/orgs/ships-online/" target="_blank">
+				<img width="24" src="${ require(`./images/github.png`) }">
+			</a>
+		</div>
 	</main>
 
 	<script src="http://${ htmlWebpackPlugin.options.socketUrl }/socket.io/socket.io.js"></script>
