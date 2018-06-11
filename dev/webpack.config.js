@@ -14,7 +14,9 @@ module.exports = options => {
 			modules: [ 'packages', process.cwd(), 'node_modules' ]
 		},
 
-		entry: './src/scripts/main.js',
+		entry: [
+			'./src/scripts/main.js'
+		],
 
 		output: {
 			path: path.resolve( process.cwd(), 'build' ),
@@ -86,13 +88,25 @@ module.exports = options => {
 		}
 	};
 
+	if ( options.analytics ) {
+		webpackConfig.entry.push( path.join( process.cwd(), 'src', 'scripts', 'analytics.js' ) );
+
+		webpackConfig.plugins = [
+			...webpackConfig.plugins,
+			new webpack.DefinePlugin( {
+				ANALYTICS: JSON.stringify( options.analytics )
+			} )
+		];
+	}
+
 	if ( options.minify ) {
 		webpackConfig.plugins = [
 			...webpackConfig.plugins,
 			new webpack.DefinePlugin( {
 				'process.env': {
 					'NODE_ENV': JSON.stringify( 'production' )
-				}
+				},
+				ANALYTICS: JSON.stringify( options.analytics )
 			} ),
 			new BabiliPlugin( null, { comments: false } ),
 			new webpack.optimize.ModuleConcatenationPlugin()

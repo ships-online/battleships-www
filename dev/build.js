@@ -8,7 +8,8 @@ const getWebpackConfig = require( './webpack.config' );
 
 const options = minimist( process.argv.slice( 2 ), {
 	string: [
-		'socket-url'
+		'socket-url',
+		'analytics'
 	],
 
 	boolean: [
@@ -27,6 +28,7 @@ const options = minimist( process.argv.slice( 2 ), {
 		watch: false,
 		coverage: false,
 		minify: false,
+		analytics: '',
 		'source-map': false,
 		'socket-url': 'localhost:8080'
 	}
@@ -35,7 +37,8 @@ const options = minimist( process.argv.slice( 2 ), {
 options.sourceMap = options[ 'source-map' ];
 
 options.environment = {
-	SOCKET_URL: JSON.stringify( options[ 'socket-url' ] )
+	SOCKET_URL: JSON.stringify( options[ 'socket-url' ] ),
+	ANALYTICS: JSON.stringify( options.analytics ),
 };
 
 function buildWebpack() {
