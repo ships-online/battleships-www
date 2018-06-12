@@ -20,19 +20,13 @@ export function start( socketUrl, mainEl, gameEl, gameId ) {
 				},
 				render: h => h( Settings )
 			} );
-			initGame( game );
 
+			initGame( game );
 			mainEl.classList.add( 'ready' );
 		} )
 		.catch( error => showGameOverScreen( error ) );
 
 	function createGame( idOrSettings ) {
-		if ( gameOverView ) {
-			gameOverView.$destroy();
-			gameEl.innerHTML = '';
-			gameOverView = null;
-		}
-
 		if ( typeof idOrSettings === 'string' ) {
 			return Battleships.join( socketUrl, idOrSettings );
 		}
@@ -59,17 +53,15 @@ export function start( socketUrl, mainEl, gameEl, gameId ) {
 			}
 		} );
 
-		// Tmp.
-		window.game = game;
-
 		game.on( 'error', ( evt, error ) => showGameOverScreen( error ) );
 
 		if ( game.player.isHost ) {
-			updateDisabledSettings( game );
+			game.on( 'change:interestedPlayersNumber', () => updateSettingsState( game ) );
+			game.on( 'change:state', () => updateSettingsState( game ) );
+			game.player.on( 'change:isReady', () => updateSettingsState( game ) );
 
-			game.on( 'change:interestedPlayersNumber', () => updateDisabledSettings( game ) );
-			game.on( 'change:state', () => updateDisabledSettings( game ) );
-			game.player.on( 'change:isReady', () => updateDisabledSettings( game ) );
+			// Settings button is disabled by default so it needs to be updated for the host.
+			updateSettingsState( game );
 		}
 
 		gameView = new Vue( {
@@ -82,8 +74,6 @@ export function start( socketUrl, mainEl, gameEl, gameId ) {
 	function showGameOverScreen( error ) {
 		console.error( error );
 
-		setTitleMessage( 'Game over' );
-
 		if ( gameOverView ) {
 			throw new Error( 'Game over view already rendered.' );
 		}
@@ -95,6 +85,8 @@ export function start( socketUrl, mainEl, gameEl, gameId ) {
 		if ( settingsView ) {
 			settingsView.$destroy();
 		}
+
+		setTitleMessage( 'Game over' );
 
 		mainEl.innerHTML = '';
 
@@ -121,7 +113,7 @@ export function start( socketUrl, mainEl, gameEl, gameId ) {
 			.catch( error => console.error( error ) );
 	}
 
-	function updateDisabledSettings( game ) {
+	function updateSettingsState( game ) {
 		let isDisabled = game.status !== 'available' || game.interestedPlayersNumber > 0 || game.player.isReady;
 		let tooltip = '';
 
@@ -145,6 +137,6 @@ export function getGameId() {
 	return window.location.hash.split( '#' )[ 1 ];
 }
 
-export default function setTitleMessage( message ) {
+export function setTitleMessage( message ) {
 	document.title = message;
 }
