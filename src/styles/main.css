@@ -12,7 +12,7 @@ body {
 	justify-content: space-between;
 }
 
-.ready {
+.game-ready {
 	transition: opacity .2s;
 	opacity: 1;
 }

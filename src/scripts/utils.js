@@ -12,11 +12,11 @@ export function start( socketUrl, mainEl, idOrSettings ) {
 	createGame( idOrSettings )
 		.then( game => {
 			initGame( game );
-			document.body.classList.add( 'ready' );
+			document.body.classList.add( 'game-ready' );
 		} )
 		.catch( error => {
 			showGameOverScreen( error );
-			document.body.classList.add( 'ready' );
+			document.body.classList.add( 'game-ready' );
 		} );
 
 	function createGame( idOrSettings ) {
