@@ -14,7 +14,10 @@ export function start( socketUrl, mainEl, idOrSettings ) {
 			initGame( game );
 			document.body.classList.add( 'ready' );
 		} )
-		.catch( error => showGameOverScreen( error ) );
+		.catch( error => {
+			showGameOverScreen( error );
+			document.body.classList.add( 'ready' );
+		} );
 
 	function createGame( idOrSettings ) {
 		if ( typeof idOrSettings === 'string' ) {
