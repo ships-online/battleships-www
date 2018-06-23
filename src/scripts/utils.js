@@ -2,27 +2,17 @@ import Battleships from 'battleships-core/src/game';
 import Vue from 'vue';
 import Game from 'battleships-ui-vue/src/game.vue';
 import GameOver from 'battleships-ui-vue/src/gameover.vue';
-import Settings from 'battleships-ui-vue/src/settings.vue';
+import { settings } from 'battleships-ui-vue/src/utils';
 import isEqual from '@ckeditor/ckeditor5-utils/src/lib/lodash/isEqual';
 
-export function start( socketUrl, mainEl, gameEl, gameId ) {
-	let game, gameView, gameOverView, settingsView;
+export function start( socketUrl, mainEl, idOrSettings ) {
+	let game, gameView, gameOverView;
 
 	// Create the game on init.
-	createGame( gameId )
+	createGame( idOrSettings )
 		.then( game => {
-			settingsView = new Vue( {
-				el: '#settings',
-				data: {
-					onChange: handleNewSettings,
-					disabled: true,
-					tooltip: 'Start your own game to set new rules'
-				},
-				render: h => h( Settings )
-			} );
-
 			initGame( game );
-			mainEl.classList.add( 'ready' );
+			document.body.classList.add( 'ready' );
 		} )
 		.catch( error => showGameOverScreen( error ) );
 
@@ -55,18 +45,12 @@ export function start( socketUrl, mainEl, gameEl, gameId ) {
 
 		game.on( 'error', ( evt, error ) => showGameOverScreen( error ) );
 
-		if ( game.player.isHost ) {
-			game.on( 'change:interestedPlayersNumber', () => updateSettingsState( game ) );
-			game.on( 'change:state', () => updateSettingsState( game ) );
-			game.player.on( 'change:isReady', () => updateSettingsState( game ) );
-
-			// Settings button is disabled by default so it needs to be updated for the host.
-			updateSettingsState( game );
-		}
-
 		gameView = new Vue( {
 			el: '#game',
-			data: { game },
+			data: {
+				game,
+				onSettingsChange: handleNewSettings
+			},
 			render: h => h( Game )
 		} );
 	}
@@ -82,10 +66,6 @@ export function start( socketUrl, mainEl, gameEl, gameId ) {
 			gameView.$destroy();
 		}
 
-		if ( settingsView ) {
-			settingsView.$destroy();
-		}
-
 		setTitleMessage( 'Game over' );
 
 		mainEl.innerHTML = '';
@@ -97,39 +77,22 @@ export function start( socketUrl, mainEl, gameEl, gameId ) {
 		} );
 	}
 
-	function handleNewSettings( size, shipsSchema ) {
+	function handleNewSettings( { size, shipsSchema } ) {
 		const battlefield = game.player.battlefield;
 
 		if ( battlefield.size === size && isEqual( battlefield.shipsSchema, shipsSchema ) ) {
 			return;
 		}
 
+		settings.set( 'gameSettings', { size, shipsSchema } );
+
 		game.destroy();
 		gameView.$destroy();
-		document.querySelector( '.wrapper' ).innerHTML = '<div id="game" class="battleships"></div>';
+		mainEl.querySelector( '.wrapper' ).innerHTML = '<div id="game" class="battleships"></div>';
 
 		createGame( { size, shipsSchema } )
 			.then( game => initGame( game ) )
 			.catch( error => console.error( error ) );
-	}
-
-	function updateSettingsState( game ) {
-		let isDisabled = game.status !== 'available' || game.interestedPlayersNumber > 0 || game.player.isReady;
-		let tooltip = '';
-
-		if ( game.status !== 'available' ) {
-			isDisabled = true;
-			tooltip = 'Cannot change game settings<br>after the game has started';
-		} else if ( game.player.isReady ) {
-			isDisabled = true;
-			tooltip = 'Cannot change game settings<br>when you are ready for the battle';
-		} else if ( game.interestedPlayersNumber > 0 ) {
-			isDisabled = true;
-			tooltip = 'Cannot change game settings<br>while there are interested players';
-		}
-
-		settingsView.disabled = isDisabled;
-		settingsView.tooltip = tooltip;
 	}
 }
 

@@ -6,7 +6,7 @@ import 'battleships-theme/src/styles/index.css';
 import '../styles/main.css';
 
 const mainEl = document.querySelector( 'main' );
-const gameEl = document.querySelector( '#game' );
 const gameId = getGameId();
+import { settings } from 'battleships-ui-vue/src/utils';
 
-start( SOCKET_URL, mainEl, gameEl, gameId );
+start( SOCKET_URL, mainEl, gameId || settings.get( 'gameSettings' ) );

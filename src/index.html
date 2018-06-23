@@ -6,7 +6,7 @@
 	<meta name="description" content="Your favourite pencil and paper game">
 
 	<style>
-		main {
+		body {
 			opacity: 0;
 		}
 	</style>
@@ -16,14 +16,14 @@
 		<div class="wrapper">
 			<div id="game" class="battleships"></div>
 		</div>
-
-		<div class="additional">
-			<button id="settings" class="settings-button">Settings</button>
-			<a href="https://github.com/orgs/ships-online/" target="_blank">
+	</main>
+	<footer>
+		<p>
+			<a href="https://github.com/orgs/ships-online/" target="_blank" title="Check the game in GitHub">
 				<img width="24" src="${ require(`./images/github.png`) }" alt="GitHub">
 			</a>
-		</div>
-	</main>
+		</p>
+	</footer>
 
 	<script src="http://${ htmlWebpackPlugin.options.socketUrl }/socket.io/socket.io.js"></script>
 </body>
