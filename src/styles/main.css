@@ -29,4 +29,9 @@ body {
 footer p {
 	margin: 10px;
 	text-align: right;
+
+	svg {
+		width: 28px;
+		height: 28px;
+	}
 }
