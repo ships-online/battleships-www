@@ -1,11 +1,19 @@
 import Battleships from 'battleships-core/src/game';
-import Vue from 'vue';
-import Game from 'battleships-ui-vue/src/game.vue';
-import GameOver from 'battleships-ui-vue/src/gameover.vue';
-import { settings } from 'battleships-ui-vue/src/utils';
+import { settings as gameSettings } from 'battleships-ui-vue/src/utils';
 import isEqual from '@ckeditor/ckeditor5-utils/src/lib/lodash/isEqual';
 
-export function start( socketUrl, mainEl, idOrSettings ) {
+import Vue from 'vue';
+import GameView from 'battleships-ui-vue/src/game.vue';
+import GameOverView from 'battleships-ui-vue/src/gameover.vue';
+
+/**
+ * Bootstraps the game.
+ *
+ * @param {String} socketUrl
+ * @param {HTMLElement} mainEl
+ * @param {String|Object} idOrSettings
+ */
+export function bootstrap( socketUrl, mainEl, idOrSettings ) {
 	let game, gameView, gameOverView;
 
 	// Create the game on init.
@@ -19,6 +27,13 @@ export function start( socketUrl, mainEl, idOrSettings ) {
 			document.body.classList.add( 'game-ready' );
 		} );
 
+	/**
+	 * Returns the game instance where client created a new battle or joined to the existing one.
+	 *
+	 * @private
+	 * @param {String|Object} idOrSettings
+	 * @returns {Promise.<Battleships>}
+	 */
 	function createGame( idOrSettings ) {
 		if ( typeof idOrSettings === 'string' ) {
 			return Battleships.join( socketUrl, idOrSettings );
@@ -27,6 +42,12 @@ export function start( socketUrl, mainEl, idOrSettings ) {
 		return Battleships.create( socketUrl, idOrSettings );
 	}
 
+	/**
+	 * Creates the UI and binds the game with it.
+	 *
+	 * @private
+	 * @param {Battleships} newGame
+	 */
 	function initGame( newGame ) {
 		game = newGame;
 
@@ -54,10 +75,16 @@ export function start( socketUrl, mainEl, idOrSettings ) {
 				game,
 				onSettingsChange: handleNewSettings
 			},
-			render: h => h( Game )
+			render: h => h( GameView )
 		} );
 	}
 
+	/**
+	 * Shows {@link GameOverView}.
+	 *
+	 * @private
+	 * @param {Error} error
+	 */
 	function showGameOverScreen( error ) {
 		console.error( error );
 
@@ -76,18 +103,27 @@ export function start( socketUrl, mainEl, idOrSettings ) {
 		gameOverView = new Vue( {
 			el: 'main',
 			data: { error },
-			render: h => h( GameOver )
+			render: h => h( GameOverView )
 		} );
 	}
 
-	function handleNewSettings( { size, shipsSchema } ) {
+	/**
+	 * Handles new game settings and creates new game in the place of the old one.
+	 *
+	 * @private
+	 * @param {Object} settings
+	 * @param {String} settings.size
+	 * @param {Object} settings.shipsSchema
+	 */
+	function handleNewSettings( settings ) {
+		const { size, shipsSchema } = settings;
 		const battlefield = game.player.battlefield;
 
 		if ( battlefield.size === size && isEqual( battlefield.shipsSchema, shipsSchema ) ) {
 			return;
 		}
 
-		settings.set( 'gameSettings', { size, shipsSchema } );
+		gameSettings.set( 'gameSettings', { size, shipsSchema } );
 
 		game.destroy();
 		gameView.$destroy();
@@ -99,10 +135,20 @@ export function start( socketUrl, mainEl, idOrSettings ) {
 	}
 }
 
+/**
+ * Tries to get game id from the url.
+ *
+ * @returns {String}
+ */
 export function getGameId() {
 	return window.location.hash.split( '#' )[ 1 ];
 }
 
+/**
+ * Sets message to the <title/> element.
+ *
+ * @param {String} message
+ */
 export function setTitleMessage( message ) {
 	document.title = message;
 }
