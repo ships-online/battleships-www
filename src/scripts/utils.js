@@ -67,6 +67,12 @@ export function bootstrap( socketUrl, mainEl, idOrSettings ) {
 			}
 		} );
 
+		game.opponent.on( 'change:isWaitingForRematch', ( evt, name, value ) => {
+			if ( game.status === 'over' && value ) {
+				setTitleMessage( 'Rematch?' );
+			}
+		} );
+
 		game.on( 'error', ( evt, error ) => showGameOverScreen( error ) );
 
 		gameView = new Vue( {
