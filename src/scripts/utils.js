@@ -55,7 +55,7 @@ export function bootstrap( socketUrl, mainEl, idOrSettings ) {
 
 		game.on( 'change:activePlayerId', () => {
 			if ( game.activePlayerId ) {
-				setTitleMessage( game.activePlayerId === game.player.id ? 'Take a shoot' : 'Wait for the opponent shoot' );
+				setTitleMessage( game.activePlayerId === game.player.id ? 'Take a shot' : 'Wait for the opponent shot' );
 			} else if ( game.winnerId ) {
 				setTitleMessage( game.winnerId === game.player.id ? 'You won :)' : 'You lost :(' );
 			}
