@@ -7,7 +7,7 @@
     "build:production": "npm run build -- --minify --socket-url server.ships-online.com --analytics UA-11153361-28",
     "deploy": "node ./dev/deploy",
     "test": "battleships-test --config ./dev/webpack.config.js",
-    "serve": "http-server build",
+    "serve": "http-server build -p 1234",
     "lint": "eslint --quiet '**/*.js'",
     "precommit": "lint-staged"
   },
