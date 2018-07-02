@@ -79,7 +79,8 @@ export function bootstrap( socketUrl, mainEl, idOrSettings ) {
 			el: '#game',
 			data: {
 				game,
-				onSettingsChange: handleNewSettings
+				onSettingsChange: handleNewSettings,
+				onNewGame: handleNewGame
 			},
 			render: h => h( GameView )
 		} );
@@ -130,10 +131,15 @@ export function bootstrap( socketUrl, mainEl, idOrSettings ) {
 		}
 
 		gameSettings.set( 'gameSettings', { size, shipsSchema } );
+		handleNewGame();
+	}
 
+	function handleNewGame() {
 		game.destroy();
 		gameView.$destroy();
 		mainEl.querySelector( '.wrapper' ).innerHTML = '<div id="game" class="battleships"></div>';
+
+		const { size, shipsSchema } = gameSettings.get( 'gameSettings' ) || {};
 
 		createGame( { size, shipsSchema } )
 			.then( game => initGame( game ) )
