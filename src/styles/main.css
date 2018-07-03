@@ -1,28 +1,33 @@
 html, body {
-	height: 100%;
-	width: 100%;
 	margin: 0;
 	padding: 0;
 }
 
 body {
-	text-align: center;
 	display: flex;
+	min-height: 100vh;
 	flex-direction: column;
-	justify-content: space-between;
+	text-align: center;
+
+	&.game-ready {
+		transition: opacity .2s;
+		opacity: 1;
+	}
 }
 
-.game-ready {
-	transition: opacity .2s;
-	opacity: 1;
-}
+main {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	padding-bottom: 0px;
 
-.wrapper {
-	margin: 0 auto;
-	display: inline-block;
+	.wrapper {
+		margin: 0 auto;
+		display: inline-block;
 
-	#game {
-		margin: 5px;
+		#game {
+			margin: 5px;
+		}
 	}
 }
 
@@ -33,7 +38,7 @@ footer {
 	font-size: 12px;
 
 	p {
-		margin: 10px;
+		margin: 0 10px 10px;
 		text-align: right;
 
 		svg {
