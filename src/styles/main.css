@@ -26,12 +26,19 @@ body {
 	}
 }
 
-footer p {
-	margin: 10px;
-	text-align: right;
+footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 12px;
 
-	svg {
-		width: 28px;
-		height: 28px;
+	p {
+		margin: 10px;
+		text-align: right;
+
+		svg {
+			width: 28px;
+			height: 28px;
+		}
 	}
 }
